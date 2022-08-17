@@ -1,0 +1,408 @@
+package assess;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
+abstract class Vehicle { 
+	
+	//THIS is the Abstract Vehicle Class
+	
+	String numP;
+	String brand;
+	String date;
+	
+	//Initializing getters and setters for the
+	//inputs and outputs of data
+	
+	//Getter and Setter Numberplate ID
+	void setID(String numP) {
+		this.numP = numP;
+	}
+	String getID() {
+		return numP;
+	} 
+	
+	//Getter and Setter Vehicle Brand
+	void setBrand(String brand) {
+		this.brand = brand;
+	}
+	
+	String getBrand() {
+		return numP;
+	}
+	
+	//Getter and Setter DATE and TIME
+	void setDateTime(String date) {
+		this.date = date;
+	}
+	
+	String getDateTime() {
+		return date;
+	}
+	
+}
+
+interface Carparkmanager {
+	
+	//Interface Carparkmanager -----> This will be implimented in the Sliitcarparkmgr class
+	
+	final int totalVehicleSlots = 20;
+	boolean vehicleEntered();
+	
+	int vehicleLeft(String ID);
+	int getNumEmptySlots();
+	int getNumOccupiedSlots();
+
+}
+
+	//MAIN class
+
+public class Main{
+	
+		//MAIN method
+	
+	public static void main(String[] args) {
+	
+		Scanner Scan = new Scanner(System.in); //This is the Scanner which gets input from the console
+		Sliitcarparkmgr S_P_M = new Sliitcarparkmgr(); //Creating an object of Sliitcarparkmgr with the name S_P_M
+		
+		while(true) { //INFINITE WHILE LOOP
+				
+			
+				//THE part that we see as CUI in the Console to interact with
+				System.out.println("");				
+				System.out.println("WELCOME TO THE SLIIT CAR PARK");
+				System.out.println("	1 = Enter		");
+				System.out.println("	2 = Remove		");
+				System.out.println("	3 = List		");
+				System.out.println("	4 = Exit		");
+				System.out.println("Please Type your Entry");
+				
+
+				int SType = Scan.nextInt(); //Take the input that we give and store it in an Integer variable
+					//ADD VEHICLE
+					if (SType == 1) { //When variable given to the input is 1, the system starts to ENter vehicles
+						boolean V_Enter = S_P_M.vehicleEntered(); //Checking if there's space in the Car Park
+						if(V_Enter == true) { // IF there's space then continue adding 
+							
+							DatenTime E_instance = new DatenTime(); //CREATE A DateTIME object 
+							System.out.println("Select your Vehicle Type \n 1.Car \n 2.Van \n 3.3Wheel");
+							int V_Group = Scan.nextInt(); //Getting the input from console, if its a car, van or 3wheel
+							
+							//SELECTED CAR
+							if (V_Group == 1) { //when the input is 1 a car will be recorded
+								Car car1 = new Car(); //creating an object of Car and name it as car1
+								
+								System.out.println("TYPE : CAR");
+								
+								System.out.println("Brand Name: ");
+								car1.setBrand(Scan.next()); //getting the input and sending to the setter of Brand
+								
+								System.out.println("Number Plate: ");
+								car1.setID(Scan.next()); //getting the input and sending to the setter of Number Plate
+								
+								System.out.println("Vehicle Color: ");
+								car1.setColor(Scan.next()); //getting the input and sending to the setter of Color
+								
+								System.out.println("Vehicle Doors: ");
+								car1.setDoor(Scan.nextInt()); //getting the input and sending to the setter of Number of Doors
+								
+								System.out.println("Time: ");
+								car1.setDateTime(E_instance.DateTime()); //getting the input and sending to the setter of Time and Date
+								
+								S_P_M.Add_Enter(car1); // Send the car1 Variable to the Add_Enter method which will add to the arrayList
+								
+							}
+							if(V_Group == 2) { //when the input is 2 a Van will be recorded
+								
+								Van van1 = new Van(); //creating an object of Van and name it as van1
+								
+								System.out.println("TYPE : VAN");
+								
+								System.out.println("Brand Name: ");
+								van1.setBrand(Scan.next()); //getting the input and sending to the setter of Brand
+								
+								System.out.println("Number Plate: ");
+								van1.setID(Scan.next()); //getting the input and sending to the setter of Number Plate
+								
+								System.out.println("Vehicle Type: \n 1.Passenger \n 2.Cargo");
+								van1.vanType(Scan.nextInt()); //getting the input and sending to check if its a Passenger van or Cargo Van
+								//above function sends the input to the vanType method, where according
+								//to the input a boolean value is made to output
+								
+								if (van1.Passenger == true) { // if the boolean value is true
+									System.out.println("Available Seats: "); 
+									van1.seatcount(Scan.nextInt()); //The scanner will take inputs for number of seats
+								}
+								if (van1.Passenger == false) { // if the boolean value is false
+									System.out.println("Cargo Carry Capacity: ");
+									van1.setCapacity(Scan.nextInt()); //The scanner will take inputs for cargo capacity
+									System.out.print("In Kilos");
+								}
+								
+								System.out.println("\nTime: ");
+								van1.setDateTime(E_instance.DateTime());  //getting the input and sending to the setter of Time and Date
+								
+								S_P_M.Add_Enter(van1); // Send the van1 Variable to the Add_Enter method which will add to the arrayList
+								
+							}
+								if(V_Group == 3) { //when the input is 3 a Three Wheel will be recorded
+								
+								Wheel3 w3_1 = new Wheel3(); //creating an object of Three Wheel and name it as w3_1 (wheel3_1)
+								
+								System.out.println("TYPE : Three Wheel");
+								
+								System.out.println("Brand Name: ");
+								w3_1.setBrand(Scan.next()); //getting the input and sending to the setter of Brand
+								
+								System.out.println("Number Plate: ");
+								w3_1.setID(Scan.next()); //getting the input and sending to the setter of Number Plate
+								
+								System.out.println("Vehicle Type: \n 1.Taxi \n 2.Not for Hire ");
+								w3_1.Wheeltype(Scan.nextInt()); //getting the input to check if the vehicle is for Taxi rides or not
+								//this will send the input to the Wheeltype function and get a return value as true or false
+									if (w3_1.taxi == true) { //if the value is true the three wheel is for hiring
+										System.out.println("For Hire");
+									}
+									if(w3_1.taxi == false) { // if the value is false it is not for hiring
+										System.out.println("Not for Hire");
+									}
+									
+							
+								System.out.println("Time: ");
+								w3_1.setDateTime(E_instance.DateTime()); //getting the input and sending to the setter of Time and Date
+								
+								S_P_M.Add_Enter(w3_1);// Send the w3_1 Variable to the Add_Enter method which will add to the arrayList
+								
+							}
+						}
+					}
+					
+					//REMOVE VEHICLE
+					if (SType == 2) { //when the input at the first is not entering vehicles but to remove vehicles from arrayList
+						//Number 2 is given as input
+						System.out.println("Number Plate of the Removing Vehicle: ");
+						S_P_M.vehicleLeft(Scan.next()); //This will run the vehicle leaving function
+					}
+					
+					//LIST VEHICLE
+					if (SType == 3) { // When the input is 3 , then the vehicles available in the arrayList will be listed
+						S_P_M.getVehicleList(); // Function for displaying arrayList
+					}
+					
+					//EXIT THE SYSTEM
+					if (SType == 4) { // When the value is 4, the program will end 
+						System.out.println("Exiting!!!");
+						System.exit(0); //Exit function for Java
+					}
+		}		
+	}
+}
+
+// This is the Car class it extends itself to the Vehicle class
+class Car extends Vehicle {
+	
+	//Defining some variables
+	int door;
+	String color;
+	
+	void setDoor(int door) {
+		this.door = door; //what comes through the parameter is equated to the variable in this class
+	}
+	
+	int getDoor() {
+		return door; //sending door count
+	}
+	
+	void setColor(String color) {
+		this.color = color; //what comes through the parameter is equated to the variable in this class
+	}
+	
+	String setColor() {
+		return color; //sending vehicle color
+		
+	}
+	
+}
+//This is the Van class it extends itself to the Vehicle class
+class Van extends Vehicle {
+	
+	//Defining some variables
+	Boolean Passenger;
+	int seats;
+	int cap;
+	int type;
+	
+	void vanType(int type) {
+		this.type = type;  //what comes through the parameter is equated to the variable in this class
+		
+		if (type == 1) {
+			Passenger = true; //True means Passenger Van
+			
+		}
+		if(type == 2) {
+			Passenger = false; //False means Goods Van
+			//GOODS VAN
+		}
+	}
+	
+	void seatcount(int seats) {
+		this.seats = seats; //what comes through the parameter is equated to the variable in this class
+		
+	}
+	int getseats() {
+		return seats; //sending the variable
+	}
+	
+	void setCapacity(int cap) {
+		this.cap = cap; //what comes through the parameter is equated to the variable in this class
+	}
+	
+	int getCap() {
+		return cap; //sending the variable
+	}
+	
+
+}
+//This is the Wheel3 class it extends itself to the Vehicle class
+class Wheel3 extends Vehicle{
+	
+	//Defining some variables
+	boolean taxi;
+	int type;
+	
+	void Wheeltype(int type) {
+		this.type =type; //what comes through the parameter is equated to the variable in this class
+		
+		if(type == 1) {
+			taxi = true; //True means For Hire
+		}
+		if (type == 2) {
+			taxi = false; //False means not for Hire
+		}
+	}
+	boolean getWheeltype() {
+		return taxi; //sending the variable
+	}
+
+}
+
+//This is the Sliitcarparkmgr class it implements the Carparkmanager interface
+class Sliitcarparkmgr implements Carparkmanager{
+	
+	//Defining some variables
+	static int parked = 0;
+	String ID;
+	
+	
+	ArrayList<Vehicle> vehiclearray = new ArrayList<Vehicle>(); // Creating an ArrayList of the vehicle class of the name vehiclearray
+	
+	public void Add_Enter(Vehicle veh1) { //method for adding the informations to the ArrayList
+		
+		vehiclearray.add(veh1); //adding the veh1 variable array to the ArrayList
+		
+		System.out.println("Available Slots: " + getNumEmptySlots() ); //Printing the Empty Slot count
+		System.out.println("Used Slots: " + getNumOccupiedSlots() ); //Printing the occupied slot count
+		System.out.println("");
+	}
+	
+	
+	public boolean vehicleEntered() { //method to check if there's space for adding vehicles
+		
+		if (parked < totalVehicleSlots) {
+			parked = parked + 1;
+			return true;
+		}
+		else{
+			System.out.println("CAR PARK IS FULL");
+			return false;
+		} //the above will return true if there's space and false if there's no space
+	}
+
+	public int vehicleLeft(String ID) { //method for removing a vehicle
+		
+		boolean Veh_Exist = false; //initializing the boolean value
+		
+		for(int t = 0; t < vehiclearray.size() ;t++) { //Checking for all the values through the arrayList
+			
+				if((vehiclearray.get(t).getID()).equals(ID)) { // Take the arrayList and check which 
+					//vehicle ID coincides with the input that we give, the vehicles are removed according to their number plates
+					
+					System.out.println("Leaving Vehicel ID: " + t); // Leaving vehicles number in the role
+					
+					Veh_Exist = true;
+					vehiclearray.remove(t); //removing from the arrayList
+					
+				}
+		}
+		
+			if (Veh_Exist == false) {
+				System.out.println("Invalid ID"); //If the Input was not found in the arrayList, this will be printed
+			}
+			
+			parked = parked - 1; //reducing the vehicle count in the parking lot
+			System.out.println("THANK YOU FOR COMING !!!");
+			System.out.println("Available Slots: " + getNumEmptySlots() );
+			System.out.println("Used Slots: " + getNumOccupiedSlots() );
+			System.out.println("");
+			return 1; // this for the sake of returning a value
+	}
+		
+	
+		
+	
+
+	public int getNumEmptySlots() { //getter for the empty slot count
+		
+		int emptyslots = (totalVehicleSlots - parked);
+		return emptyslots;
+	}
+
+
+	public int getNumOccupiedSlots() { //getter for the occupied slot count
+		return parked;
+	}
+	
+	public void getVehicleList() { //getter for the vehicle list
+		
+		for(int t = 0; t < vehiclearray.size() ;t++) {
+			//to get all the values we need a loop to loop thorough every element in the arrayList
+			System.out.println("");
+			System.out.println("ID PLATE: "+vehiclearray.get(t).getID()); // Accessing the ID from the arryList
+			System.out.println("Entered Time: "+vehiclearray.get(t).getDateTime()); //Accessing the Date and Time from the arrayList
+			//if (() {
+			if(vehiclearray.get(t) instanceof Car) { //Checking the class of the arrayList of the value, instance of Car means object 
+				//of the Car class 
+				System.out.println("Vehicle Type: Car"); 
+			}
+			
+			if (vehiclearray.get(t) instanceof Van) {//Checking the class of the arrayList of the value, instance of Van means object 
+				//of the Van class 
+				System.out.println("Vehicle Type: Van");
+			}
+			
+			if (vehiclearray.get(t) instanceof Wheel3 ) {//Checking the class of the arrayList of the value, instance of Wheel3 means object 
+				//of the Wheel3 class 
+				System.out.println("Vehicle Type: Three Wheel");
+			}
+			
+			}
+		
+	}
+
+}
+
+	class DatenTime {
+		String DateTime() {
+		    //Accessing the PC time and Date by a method inbuilt in Java 
+			LocalDateTime myDateObj = LocalDateTime.now();	
+		    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); //Formatting the method
+		    //to bring the pattern of DD-MM-YYYY and HH-MM-SS
+		    String formattedDate = myDateObj.format(myFormatObj);
+		    System.out.println(formattedDate);
+		    return formattedDate;
+		    
+		}
+	}
